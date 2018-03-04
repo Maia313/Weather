@@ -1,7 +1,7 @@
-const IPINFO_API = "https://ipinfo.io";
-const PROXY_SERVICE = "https://crossorigin.me/";
-const WEATHER_API = "https://api.darksky.net/forecast/7535a35daa4bf7d1231073bae0263e0c/";
-const OPTIONS = "?units=auto&extend=hourly";
+const ipinfo = "https://ipinfo.io";
+const proxy = "https://crossorigin.me/";
+const dsAPI = "https://api.darksky.net/forecast/7535a35daa4bf7d1231073bae0263e0c/";
+const options = "?units=auto&extend=hourly";
 
 var geolocation;
 var weather;
@@ -16,12 +16,12 @@ $(document).ready(function() {
 $("select#foo").val();
 
 function init() {
-    $.getJSON(IPINFO_API, function(geolocationData) {
+    $.getJSON(ipinfo, function(geolocationData) {
         console.log(geolocationData);
         geolocation = geolocationData;
         initGeolocationDiv();
 
-        $.getJSON(PROXY_SERVICE + WEATHER_API + getLatLong() + OPTIONS, function(weatherData) {
+        $.getJSON(proxy + dsAPI + getLatLong() + options, function(weatherData) {
             weather = weatherData;
             initNowDiv();
             initWeatherDailyDiv();
