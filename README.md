@@ -1,2 +1,2 @@
 # API
-(:octocat:)[https://maia313.github.io/API/]
+:octocat:[https://maia313.github.io/API/]
