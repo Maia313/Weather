@@ -1,14 +1,18 @@
-const ipinfo = "https://ipinfo.io";
-const proxy = "https://crossorigin.me/";
-const dsAPI = "https://api.darksky.net/forecast/7535a35daa4bf7d1231073bae0263e0c/";
-const options = "?units=auto&extend=hourly";
+const searchCity = document.getElementById('city-search');
 
-var hourlyWeatherHeights;
+//document.addEventListener('DOMContentLoaded', init());
+searchCity.addEventListener('change', () => {
+    const searchValue = searchCity.value;
+    init(searchValue);
+});
 
-document.addEventListener('DOMContentLoaded', init());
 
 function init() {
-    fetch(ipinfo)
+    const ipinfo = "https://ipinfo.io";
+    const proxy = "https://crossorigin.me/";
+    const dsAPI = "https://api.darksky.net/forecast/7535a35daa4bf7d1231073bae0263e0c/";
+    const options = "?units=auto&extend=hourly";
+    return fetch(ipinfo)
         .then(geolocationData => {
             return fetch(proxy + dsAPI + getLatLong(geolocationData) + options);
         })
@@ -16,7 +20,7 @@ function init() {
             initNowDiv(weatherData);
             initWeatherDailyDiv(weatherData);
             initWeatherHourlyDiv(weatherData);
-            console.log(weatherData);
+            //console.log(weatherData);
         });
 }
 
@@ -43,20 +47,20 @@ function initNowDiv(weatherData) {
 
 //Weather Daily 
 function initWeatherDailyDiv(weatherData) {
-    for (var i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         renderWeatherDayDiv(i, weatherData);
     }
     initWeatherDailyEventListener();
 }
 
 function renderWeatherDayDiv(index, weatherData) {
-    var tempMax = round(weatherData.daily.data[index].apparentTemperatureMax, 0);
-    var tempMin = round(weatherData.daily.data[index].apparentTemperatureMin, 0);
-    var descrip = weatherData.daily.data[index].icon;
-    var ms = weatherData.daily.data[index].time;
-    var day = getDayOfWeek(ms);
+    let tempMax = round(weatherData.daily.data[index].apparentTemperatureMax, 0);
+    let tempMin = round(weatherData.daily.data[index].apparentTemperatureMin, 0);
+    let descrip = weatherData.daily.data[index].icon;
+    let ms = weatherData.daily.data[index].time;
+    let day = getDayOfWeek(ms);
 
-    var daydiv = document.getElementById("#day");
+    const daydiv = document.getElementById("#day");
     (daydiv + index).innerHTML(
         "<h2>" + day + "</h2><br>" +
         "<h3>" + tempMax + "&deg / " + tempMin + "&deg" + "</h3>" +
@@ -87,7 +91,7 @@ function renderWeatherDayDiv(index, weatherData) {
 
 // add event listeners to all 7 weather-days
 function initWeatherDailyEventListener(daydiv) {
-    for (var i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         const j = i;
         (daydiv + j).addEventListener("click", function() {
             select(j);
@@ -107,13 +111,13 @@ function select(index, daydiv) {
 //Weather Hourly
 
 function initWeatherHourlyDiv(weatherData) {
-    var tempMax = Number.MIN_VALUE;
-    var tempMin = Number.MAX_VALUE;
+    let tempMax = Number.MIN_VALUE;
+    let tempMin = Number.MAX_VALUE;
 
-    hourlyWeatherHeights = new Array(168);
+    let hourlyWeatherHeights = new Array(168);
 
-    for (var i = 0; i < 168; i++) {
-        var temp = weatherData.hourly.data[i].temperature;
+    for (let i = 0; i < 168; i++) {
+        let temp = weatherData.hourly.data[i].temperature;
         if (temp > tempMax) {
             tempMax = temp;
         }
@@ -121,7 +125,7 @@ function initWeatherHourlyDiv(weatherData) {
             tempMin = temp;
         }
     }
-    for (i = 0; i < 168; i++) {
+    for (let i = 0; i < 168; i++) {
         temp = weatherData.hourly.data[i].temperature;
         hourlyWeatherHeights[i] = 120 * (temp - tempMin) / (tempMax - tempMin);
     }
@@ -136,10 +140,10 @@ function renderWeatherHourlyDiv(index) {
 }
 
 function renderGraphColumn(colIndex, index, weatherData) {
-    var temp = round(weatherData.hourly.data[index].temperature, 0);
-    var time = getHour(weatherData.hourly.data[index].time);
-    var height = hourlyWeatherHeights[index];
-    var column = document.getElementById("#col");
+    let temp = round(weatherData.hourly.data[index].temperature, 0);
+    let time = getHour(weatherData.hourly.data[index].time);
+    let height = hourlyWeatherHeights[index];
+    let column = document.getElementById("#col");
     (column + colIndex).innerHTML(
         "<p>" + temp + "</p>" +
         " <div class='bar shadow' style='height:" + height + "'></div>" +
@@ -152,7 +156,7 @@ function renderGraphColumn(colIndex, index, weatherData) {
 // input:  Time in Seconds
 // output: Day of the week as a string
 function getDayOfWeek(time) {
-    var weekdays = [
+    let weekdays = [
         "Sun",
         "Mon",
         "Tue",
@@ -161,7 +165,7 @@ function getDayOfWeek(time) {
         "Fri",
         "Sat",
     ];
-    var monNames = ["January",
+    let monNames = ["January",
         "February",
         "March",
         "April",
@@ -176,12 +180,12 @@ function getDayOfWeek(time) {
     ];
 
 
-    var date = new Date(time * 1000);
-    var day = date.getDay();
+    let date = new Date(time * 1000);
+    let day = date.getDay();
 
 
-    var month = date.getMonth();
-    var today = (new Date).getDay();
+    let month = date.getMonth();
+    let today = (new Date).getDay();
 
     if (day == today) {
         return "Today, " + "<br>" + "<h4>" + day + " " + monNames[month] + "</h4>";
@@ -192,7 +196,7 @@ function getDayOfWeek(time) {
 }
 
 function getHour(time) {
-    var date = new Date(time * 1000);
+    let date = new Date(time * 1000);
     time = date.getHours();
     if (time < 10) {
         time = "0" + time;
@@ -205,21 +209,21 @@ function getDayIndex(index, weatherData) {
     if (index === 0) {
         return 0;
     }
-    var dt = new Date(weatherData.hourly.data[index * 24].time);
-    var hour = dt.getHours() - 1;
+    let dt = new Date(weatherData.hourly.data[index * 24].time);
+    let hour = dt.getHours() - 1;
 
     return index * 24 - hour;
 }
 
 // round a number to specified decimal places
 function round(number, place) {
-    var modifier = Math.pow(10, place);
+    let modifier = Math.pow(10, place);
     return Math.round(number * modifier) / modifier;
 }
 
 
 function insertGoogleScript() {
-    var google_api = document.createElement('script'),
+    let google_api = document.createElement('script'),
         api_key = 'AIzaSyBoElUerTGDfw9nkaF5LT0gWLzDljxr4CA ';
 
     google_api.src = 'https://maps.googleapis.com/maps/api/js?key=' + api_key + '&callback=initGoogleAPI&libraries=places,geometry';
@@ -229,7 +233,7 @@ function insertGoogleScript() {
 
 // SearchBox Method
 function initGoogleAPI() {
-    var autocomplete = new google.maps.places.SearchBox(document.getElementById("#city-search"));
+    let autocomplete = new google.maps.places.SearchBox(document.getElementById("#city-search"));
 
     autocomplete.addListener('places_changed', function() {
         var place = autocomplete.getPlaces()[0];
