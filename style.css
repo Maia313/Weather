@@ -37,7 +37,7 @@ body {
 }
 
 .weather-day {
-    background-color: #e1f5d570;
+    background-color: #2b690770;
     width: 200px;
     height: 2px;
     padding: 10px;
@@ -45,7 +45,7 @@ body {
 }
 
 #now {
-    background-color: #faf2d1;
+    background-color: #eefc3696;
     width: 350px;
 }
 
@@ -66,7 +66,7 @@ body {
 }
 
 .bar {
-    background-color: #bbdefb;
+    background-color: #57d3c970;
     height: 150px;
     width: 30px;
     margin: 0 auto;
@@ -74,7 +74,7 @@ body {
 
 .selected {
     width: 300px;
-    background-color: #bbdefb;
+    background-color: #5bdbd170;
     border-style: dotted;
     border-color: #fffffff6;
 }
