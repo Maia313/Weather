@@ -3,9 +3,9 @@ const proxy = "https://crossorigin.me/";
 const dsAPI = "https://api.darksky.net/forecast/7535a35daa4bf7d1231073bae0263e0c/";
 const options = "?units=auto&extend=hourly";
 
-var geolocation;
-var weather;
-var hourlyWeatherHeights;
+let geolocation;
+let weather;
+let hourlyWeatherHeights;
 
 document.addEventListener('DOMContentLoaded', init());
 
@@ -38,9 +38,10 @@ function getLatLong() {
 
 //Weather Now
 function initNowDiv() {
-
+    let d = new Date();
+    let time = d.getHours();
     $("#now").html(
-        "<br><h2> Now </h2>" +
+        "<br><h2> Now </h2><br>" + time
         "<h3>" + round(weather.hourly.data[0].temperature, 0) + "&deg" + "</h3><br>" +
         "<img src='img/clouds.svg'>" +
         "<h3>" + weather.currently.summary + "</h3>"
@@ -50,18 +51,18 @@ function initNowDiv() {
 
 //Weather Daily 
 function initWeatherDailyDiv() {
-    for (var i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         renderWeatherDayDiv(i);
     }
     initWeatherDailyEventListener();
 }
 
 function renderWeatherDayDiv(index) {
-    var tempMax = round(weather.daily.data[index].apparentTemperatureMax, 0);
-    var tempMin = round(weather.daily.data[index].apparentTemperatureMin, 0);
-    var descrip = weather.daily.data[index].icon;
-    var ms = weather.daily.data[index].time;
-    var day = getDayOfWeek(ms);
+    let tempMax = round(weather.daily.data[index].apparentTemperatureMax, 0);
+    let tempMin = round(weather.daily.data[index].apparentTemperatureMin, 0);
+    let descrip = weather.daily.data[index].icon;
+    let ms = weather.daily.data[index].time;
+    let day = getDayOfWeek(ms);
 
     $("#day" + index).html(
         "<h2>" + day + "</h2><br>" +
@@ -87,7 +88,7 @@ function renderWeatherDayDiv(index) {
 
 // add event listeners to all 7 weather-days
 function initWeatherDailyEventListener() {
-    for (var i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i++) {
         const j = i;
         $("#day" + j).on("click", function() {
             select(j);
@@ -107,13 +108,13 @@ function select(index) {
 //Weather Hourly
 
 function initWeatherHourlyDiv() {
-    var tempMax = Number.MIN_VALUE;
-    var tempMin = Number.MAX_VALUE;
+    let tempMax = Number.MIN_VALUE;
+    let tempMin = Number.MAX_VALUE;
 
     hourlyWeatherHeights = new Array(168);
 
-    for (var i = 0; i < 168; i++) {
-        var temp = weather.hourly.data[i].temperature;
+    for (let i = 0; i < 168; i++) {
+        let temp = weather.hourly.data[i].temperature;
         if (temp > tempMax) {
             tempMax = temp;
         }
@@ -121,7 +122,7 @@ function initWeatherHourlyDiv() {
             tempMin = temp;
         }
     }
-    for (var i = 0; i < 168; i++) {
+    for (let i = 0; i < 168; i++) {
         temp = weather.hourly.data[i].temperature;
         hourlyWeatherHeights[i] = 120 * (temp - tempMin) / (tempMax - tempMin);
     }
@@ -130,15 +131,15 @@ function initWeatherHourlyDiv() {
 
 function renderWeatherHourlyDiv(index) {
 
-    for (var i = 0; i < 24; i++) {
+    for (let i = 0; i < 24; i++) {
         renderGraphColumn(i, i + getDayIndex(index));
     }
 }
 
 function renderGraphColumn(colIndex, index) {
-    var temp = round(weather.hourly.data[index].temperature, 0);
-    var time = getHour(weather.hourly.data[index].time);
-    var height = hourlyWeatherHeights[index];
+    let temp = round(weather.hourly.data[index].temperature, 0);
+    let time = getHour(weather.hourly.data[index].time);
+    let height = hourlyWeatherHeights[index];
     $("#col" + colIndex).html(
         "<p>" + temp + "</p>" +
         " <div class='bar shadow' style='height:" + height + "'></div>" +
@@ -151,7 +152,7 @@ function renderGraphColumn(colIndex, index) {
 // input:  Time in Seconds
 // output: Day of the week as a string
 function getDayOfWeek(time) {
-    var weekdays = [
+    let weekdays = [
         "Sun",
         "Mon",
         "Tue",
@@ -160,7 +161,7 @@ function getDayOfWeek(time) {
         "Fri",
         "Sat",
     ];
-    var monNames = ["January",
+    let monNames = ["January",
         "February",
         "March",
         "April",
@@ -175,12 +176,13 @@ function getDayOfWeek(time) {
     ];
 
 
-    var date = new Date(time * 1000);
-    var day = date.getDay();
-    var dateNr = date.getDate();
+    let date = new Date(time * 1000);
+    let day = date.getDay();
+    let dateNr = date.getDate();
+    
 
-    var month = date.getMonth();
-    var today = (new Date).getDay();
+    let month = date.getMonth();
+    let today = (new Date).getDay();
 
     if (day == today) {
         return "Today, " + "<br>" + "<h4>" + dateNr + " " + monNames[month] + "</h4>";
@@ -191,7 +193,7 @@ function getDayOfWeek(time) {
 }
 
 function getHour(time) {
-    var date = new Date(time * 1000);
+    let date = new Date(time * 1000);
     time = date.getHours();
     if (time < 10) {
         time = "0" + time;
@@ -204,20 +206,20 @@ function getDayIndex(index) {
     if (index === 0) {
         return 0;
     }
-    var dt = new Date(weather.hourly.data[index * 24].time);
-    var hour = dt.getHours() - 1;
+    let dt = new Date(weather.hourly.data[index * 24].time);
+    let hour = dt.getHours() - 1;
 
     return index * 24 - hour;
 }
 
 // round a number to specified decimal places
 function round(number, place) {
-    var modifier = Math.pow(10, place);
+    let modifier = Math.pow(10, place);
     return Math.round(number * modifier) / modifier;
 }
 
 
-function insertGoogleScript() {
+/*function insertGoogleScript() {
     var google_api = document.createElement('script'),
         api_key = 'AIzaSyBoElUerTGDfw9nkaF5LT0gWLzDljxr4CA ';
 
@@ -237,4 +239,4 @@ function initGoogleAPI() {
     });
 }
 
-insertGoogleScript();
+insertGoogleScript();*/
