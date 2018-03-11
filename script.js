@@ -7,8 +7,8 @@ let geolocation;
 let weather;
 let hourlyWeatherHeights;
 
-document.addEventListener('DOMContentLoaded', init());
-
+init();
+//Get geolocation and initialize now,daily, and hourly div
 function init() {
     $.getJSON(ipinfo, function(geolocationData) {
         console.log(geolocationData);
@@ -38,10 +38,10 @@ function getLatLong() {
 
 //Weather Now
 function initNowDiv() {
-    let d = new Date();
-    let time = d.getHours();
+    var d = new Date();
+    var time = d.getHours();
     $("#now").html(
-        "<br><h2> Now </h2><br>" + time
+        "<h2> Now, </h2>" + "<h2>" + time + " h</h2>" +
         "<h3>" + round(weather.hourly.data[0].temperature, 0) + "&deg" + "</h3><br>" +
         "<img src='img/clouds.svg'>" +
         "<h3>" + weather.currently.summary + "</h3>"
@@ -72,9 +72,11 @@ function renderWeatherDayDiv(index) {
     );
 
     function getWeatherImg() {
-        if (descrip == "rainy")
+        if (descrip == "rain")
             return "<img src='img/humidity.svg'>";
         else if (descrip == "partly-cloudy-day")
+            return "<img src='img/cloud.svg'>";
+        else if (descrip == "partly-cloudy-night")
             return "<img src='img/cloud.svg'>";
         else if (descrip == "cloudy")
             return "<img src='img/clouds.svg'>";
@@ -86,7 +88,7 @@ function renderWeatherDayDiv(index) {
 
 }
 
-// add event listeners to all 7 weather-days
+//Add event listeners to all 7 weather-days
 function initWeatherDailyEventListener() {
     for (let i = 0; i < 7; i++) {
         const j = i;
@@ -97,7 +99,7 @@ function initWeatherDailyEventListener() {
 }
 
 
-// Unselect a weather-day div and then select a weather-day div
+//Unselect a weather-day div and then select a weather-day div
 function select(index) {
     console.log("select(" + index + ")");
     $(".selected").removeClass("selected");
@@ -106,7 +108,6 @@ function select(index) {
 }
 
 //Weather Hourly
-
 function initWeatherHourlyDiv() {
     let tempMax = Number.MIN_VALUE;
     let tempMin = Number.MAX_VALUE;
@@ -148,7 +149,6 @@ function renderGraphColumn(colIndex, index) {
 }
 
 //Date Helpers 
-
 // input:  Time in Seconds
 // output: Day of the week as a string
 function getDayOfWeek(time) {
@@ -179,7 +179,6 @@ function getDayOfWeek(time) {
     let date = new Date(time * 1000);
     let day = date.getDay();
     let dateNr = date.getDate();
-    
 
     let month = date.getMonth();
     let today = (new Date).getDay();
@@ -217,26 +216,3 @@ function round(number, place) {
     let modifier = Math.pow(10, place);
     return Math.round(number * modifier) / modifier;
 }
-
-
-/*function insertGoogleScript() {
-    var google_api = document.createElement('script'),
-        api_key = 'AIzaSyBoElUerTGDfw9nkaF5LT0gWLzDljxr4CA ';
-
-    google_api.src = 'https://maps.googleapis.com/maps/api/js?key=' + api_key + '&callback=initGoogleAPI&libraries=places,geometry';
-    document.body.appendChild(google_api);
-}
-
-
-// SearchBox Method
-function initGoogleAPI() {
-    var autocomplete = new google.maps.places.SearchBox(document.getElementById("#city-search"));
-
-    autocomplete.addListener('places_changed', function() {
-        var place = autocomplete.getPlaces()[0];
-        document.querySelector("#latitude").value = place.geometry.location.lat();
-        document.querySelector("#longitude").value = place.geometry.location.lng();
-    });
-}
-
-insertGoogleScript();*/
