@@ -82,8 +82,11 @@ function renderWeatherDayDiv(index) {
             return "<img src='img/clouds.svg'>";
         else if (descrip == "snow")
             return "<img src='img/snow.svg'>";
-        else if (descrip == "sunny")
+        else if (descrip == "clear")
             return "<img src='img/sunny.svg'>";
+        else if (descrip == "fog")
+            return "<img src='img/cloud.svg'>";
+        
     }
 
 }
