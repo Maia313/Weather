@@ -41,8 +41,8 @@ function initNowDiv() {
     var d = new Date();
     var time = d.getHours();
     $("#now").html(
-        `<h2> Now, </h2><h2>${time}h</h2>
-        <h3>${round(weather.hourly.data[0].temperature, 0)}&deg</h3><br>
+        `<h2> Now, </h2><h3>${time}h</h3>
+        <h2>${round(weather.hourly.data[0].temperature, 0)}&deg</h2><br>
         <img src='img/clouds.svg'>
         <h3>${weather.currently.summary}</h3>`
     );
