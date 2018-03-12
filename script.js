@@ -41,10 +41,10 @@ function initNowDiv() {
     var d = new Date();
     var time = d.getHours();
     $("#now").html(
-        "<h2> Now, </h2>" + "<h2>" + time + " h</h2>" +
-        "<h3>" + round(weather.hourly.data[0].temperature, 0) + "&deg" + "</h3><br>" +
-        "<img src='img/clouds.svg'>" +
-        "<h3>" + weather.currently.summary + "</h3>"
+        `<h2> Now, </h2><h2>${time}h</h2>
+        <h3>${round(weather.hourly.data[0].temperature, 0)}&deg</h3><br>
+        <img src='img/clouds.svg'>
+        <h3>${weather.currently.summary}</h3>`
     );
 }
 
@@ -65,10 +65,10 @@ function renderWeatherDayDiv(index) {
     let day = getDayOfWeek(ms);
 
     $("#day" + index).html(
-        "<h2>" + day + "</h2><br>" +
-        "<h3>" + tempMax + "&deg / " + tempMin + "&deg" + "</h3>" +
-        getWeatherImg() +
-        "<h3>" + descrip + "</h3>"
+        `<h2>${day }</h2><br>
+        <h3> ${tempMax}&deg /${tempMin}&deg</h3>
+        ${getWeatherImg()}
+        <h3>${descrip}</h3>`
     );
 
     function getWeatherImg() {
@@ -101,9 +101,9 @@ function initWeatherDailyEventListener() {
 
 //Unselect a weather-day div and then select a weather-day div
 function select(index) {
-    console.log("select(" + index + ")");
+    console.log(`select(${index})`);
     $(".selected").removeClass("selected");
-    $("#day" + index).addClass("selected");
+    $(`#day${index}`).addClass("selected");
     renderWeatherHourlyDiv(index);
 }
 
@@ -142,9 +142,9 @@ function renderGraphColumn(colIndex, index) {
     let time = getHour(weather.hourly.data[index].time);
     let height = hourlyWeatherHeights[index];
     $("#col" + colIndex).html(
-        "<p>" + temp + "</p>" +
-        " <div class='bar shadow' style='height:" + height + "'></div>" +
-        "<p>" + time + "<br>"
+        `<p>${temp}</p>
+        <div class='bar shadow' style='height:${height}'></div>
+        <p>${time}<br>`
     );
 }
 
