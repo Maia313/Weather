@@ -218,7 +218,7 @@ function round(number, place) {
 }
 
 
-function insertGoogleScript() {
+/*function insertGoogleScript() {
     var google_api = document.createElement('script'),
         api_key = 'AIzaSyBoElUerTGDfw9nkaF5LT0gWLzDljxr4CA ';
 
@@ -239,3 +239,4 @@ function initGoogleAPI() {
 }
 
 insertGoogleScript();
+*/
